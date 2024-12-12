@@ -9,6 +9,7 @@ source as (
 renamed as (
 
     select
+        CONCAT(orders_id,"_",pdt_id) AS orders_id_pdt_id,
         date_date,
         orders_id,
         pdt_id AS products_id,
