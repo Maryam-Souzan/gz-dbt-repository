@@ -17,8 +17,8 @@ sources:
           - name: "(orders_id||'_'||pdt_id)"
             description: primary key of sales tables
             tests:
-              - unique:
-                  column_name: orders_id_pdt_id
+              - unique
+              - not_null  
           - name: date_date,
             description: date of purchase
           - name: orders_id,
@@ -34,10 +34,10 @@ sources:
         description: products that Greenweez have
         columns:
           - name: products_id
-            description: if of the product
+            description: PK of the product
             tests:
-              - unique:
-                  column_name: procudts_id
+              - unique
+              - not_null
           - name: purchase_price
             description: the price that customer pays
       - name: ship
@@ -45,15 +45,13 @@ sources:
         description: shipping information of Greenweez sales
         columns:
           - name: orders_id
-            description: id of the order
+            description: PK of the order
             tests:
-              - unique:
-                  column_name: orders_id
+              - unique
+              - not_null
           - name: shipping_fee
             description: the fee of the shipping for every order
           - name: logcost
             description: logistic cost of the order
           - name: ship_cost
             description: shipping cost of the order
-
-
