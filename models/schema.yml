@@ -134,3 +134,37 @@ models:
         tests: 
           - not_null
   - name: int_sales_margin
+    description: margin calculation per order line/product sales
+    columns:
+      - name: orders_id
+        description: orders key
+        tests:
+          - not_null
+      - name: procucts_id
+        description: products key
+        tests:
+          - not_null
+      - name: margin
+        description: revenue-purchase_cost
+        tests:
+          - not_null
+      - name: purchase_cost
+        description: quantity*purchase_price
+        tests:
+          - not_null
+      - name: date_date
+        description: date of the order
+        tests:
+          - not_null
+      - name: revenue
+        description: sum of the revenue per order
+        tests:
+          - not_null
+      - name: quantity
+        description: sum of the quantity per order
+        tests:
+          - not_null
+      - name: ordpdt
+        description: PK
+        tests:
+          - unique
