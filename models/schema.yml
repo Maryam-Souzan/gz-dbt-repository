@@ -60,9 +60,9 @@ sources:
 models:
 
   #Intermediate#
-  
+
   - name: int_orders_margin
-    description: margin of the orders
+    description: margin calculation per order
     columns:
       - name: orders_id
         description: PK of the table
@@ -90,4 +90,47 @@ models:
         tests:
           - not_null
   - name: int_orders_operational
+    description: operational margin calculation per order
+    columns:
+      - name: orders_id
+        description: PK
+        tests:
+          - unique
+          - not_null
+      - name: date_date
+        description: date of the order
+        tests:
+          - not_null
+      - name: margin
+        description: revenue-purchase_cost
+        tests:
+          - not_null
+      - name: quantity
+        description: sum of quantity per order
+        tests:
+          - not_null
+      - name: revenue
+        description: sum of revenue per order
+        tests:
+          - not_null
+      - name: purchase_cost
+        description: quantity*purchase_price
+        tests:
+          - not_null
+      - name: shipping_fee
+        description: the price the customer pays for shipping
+        tests:
+          - not_null
+      - name: ship_cost
+        description: shipping cost paid by the company to the carrier
+        tests:
+          - not_null
+      - name: log_cost
+        description: the cost of the preparing the parcel in the distribution centre or warehouse
+        tests:
+          - not_null
+      - name: operational_margin
+        description: margin+shipping_fee-(log_cost+ship_cost)
+        tests: 
+          - not_null
   - name: int_sales_margin
