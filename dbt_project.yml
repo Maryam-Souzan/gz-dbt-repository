@@ -43,4 +43,4 @@ models:
      mart:
        +materialized: table
        finance: 
-         +schema: dbt_maryam_finance
+         +schema: finance

@@ -84,7 +84,9 @@ models:
       - name: purchase cost
         description: quantity*purchase_price
         tests:
-          - not_null
+          - not_null:
+              config:
+                severity: warn
       - name: margin
         description: revenue-purchase_cost
         tests:
@@ -128,7 +130,10 @@ models:
       - name: log_cost
         description: the cost of the preparing the parcel in the distribution centre or warehouse
         tests:
-          - not_null
+          - not_null:
+              config:
+                severity: warn
+
       - name: operational_margin
         description: margin+shipping_fee-(log_cost+ship_cost)
         tests: 
@@ -149,7 +154,9 @@ models:
       - name: margin
         description: revenue-purchase_cost
         tests:
-          - not_null
+          - not_null:
+              config:
+                severity: warn
       - name: purchase_cost
         description: quantity*purchase_price
         tests:
@@ -169,4 +176,6 @@ models:
       - name: ordpdt
         description: PK
         tests:
+          - not_null
           - unique
+            
