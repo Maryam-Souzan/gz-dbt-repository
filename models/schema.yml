@@ -55,10 +55,54 @@ sources:
             description: logistic cost of the order
           - name: ship_cost
             description: shipping cost of the order
+      - name: adwords
+        identifier: raw_gz_adwords
+        description: advertisemant words
+        columns:
+          - name: date_date
+          - name: paid_source
+          - name: campaign_key
+          - name: camPGN_name
+          - name: ads_cost
+          - name: click
+      - name: bing
+        identifier: raw_gz_bing
+        description: Bingo information
+        columns: 
+          - name: date_date
+          - name: paid_source
+          - name: campaign_key
+          - name: camPGN_name
+          - name: ads_cost
+          - name: impression
+          - name: click
+      - name: criteo
+        identifier: raw_gz_criteo
+        description: criteo information
+        columns: 
+          - name: date_date
+          - name: paid_source
+          - name: campaign_key
+          - name: camPGN_name
+          - name: ads_cost
+          - name: impression
+          - name: click
+      - name: facebook 
+        identifier: raw_gz_facebook
+        description: facebook campaign information
+        columns: 
+          - name: date_date
+          - name: paid_sources
+          - name: campaign_key
+          - name: camPGN_name
+          - name: ads_cost
+          - name: impression
+          - name: click
+
+
 
 
 models:
-
   #Intermediate#
 
   - name: int_orders_margin
