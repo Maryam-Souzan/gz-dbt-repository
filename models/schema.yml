@@ -1,0 +1,181 @@
+version: 2
+
+
+sources:
+  - name: raw
+    schema: gz_raw_data
+    tables:
+      - name: sales
+        identifier: raw_gz_sales
+        description: sales of Greenweez
+        loaded_at_field: "CAST(date_date AS TIMESTAMP)"
+        freshness: 
+          warn_after:
+            count: 90
+            period: day
+        columns:
+          - name: "(orders_id||'_'||pdt_id)"
+            description: primary key of sales tables
+            tests:
+              - unique
+              - not_null  
+          - name: date_date,
+            description: date of purchase
+          - name: orders_id,
+            description: id of the order
+          - name: pdt_id AS products_id,
+            description: id of the product
+          - name: revenue,
+            description: the revenue from the sales
+          - name: quantity
+            description: number of the purchase
+      - name: product
+        identifier: raw_gz_product
+        description: products that Greenweez have
+        columns:
+          - name: products_id
+            description: PK of the product
+            tests:
+              - unique
+              - not_null
+          - name: purchase_price
+            description: the price that customer pays
+      - name: ship
+        identifier: raw_gz_ship
+        description: shipping information of Greenweez sales
+        columns:
+          - name: orders_id
+            description: PK of the order
+            tests:
+              - unique
+              - not_null
+          - name: shipping_fee
+            description: the fee of the shipping for every order
+          - name: logcost
+            description: logistic cost of the order
+          - name: ship_cost
+            description: shipping cost of the order
+
+
+models:
+
+  #Intermediate#
+
+  - name: int_orders_margin
+    description: margin calculation per order
+    columns:
+      - name: orders_id
+        description: PK of the table
+        tests:
+          - unique
+          - not_null
+      - name: date_date
+        description: date of the order
+        tests:
+          - not_null
+      - name: revenue
+        description: sum of revenue per order
+        tests:
+          - not_null
+      - name: quantity
+        description: sum of quantity per order
+        tests:
+          - not_null       
+      - name: purchase_cost
+        description: quantity*purchase_price
+        tests:
+          - not_null:
+              config:
+                severity: warn
+      - name: margin
+        description: revenue-purchase_cost
+        tests:
+          - not_null
+  - name: int_orders_operational
+    description: operational margin calculation per order
+    columns:
+      - name: orders_id
+        description: PK
+        tests:
+          - unique
+          - not_null
+      - name: date_date
+        description: date of the order
+        tests:
+          - not_null
+      - name: margin
+        description: revenue-purchase_cost
+        tests:
+          - not_null
+      - name: quantity
+        description: sum of quantity per order
+        tests:
+          - not_null
+      - name: revenue
+        description: sum of revenue per order
+        tests:
+          - not_null
+      - name: purchase_cost
+        description: quantity*purchase_price
+        tests:
+          - not_null
+      - name: shipping_fee
+        description: the price the customer pays for shipping
+        tests:
+          - not_null
+      - name: ship_cost
+        description: shipping cost paid by the company to the carrier
+        tests:
+          - not_null
+      - name: logcost
+        description: the cost of the preparing the parcel in the distribution centre or warehouse
+        tests:
+          - not_null:
+              config:
+                severity: warn
+
+      - name: operational_margin
+        description: margin+shipping_fee-(log_cost+ship_cost)
+        tests: 
+          - not_null
+  - name: int_sales_margin
+    description: margin calculation per order line/product sales
+    columns:
+      - name: orders_id
+        description: orders key
+        tests:
+          - not_null
+      - name: products_id
+        description: products key
+        tests:
+          - not_null:
+              config:
+                severity: warn
+      - name: margin
+        description: revenue-purchase_cost
+        tests:
+          - not_null:
+              config:
+                severity: warn
+      - name: purchase_cost
+        description: quantity*purchase_price
+        tests:
+          - not_null
+      - name: date_date
+        description: date of the order
+        tests:
+          - not_null
+      - name: revenue
+        description: sum of the revenue per order
+        tests:
+          - not_null
+      - name: quantity
+        description: sum of the quantity per order
+        tests:
+          - not_null
+      - name: ordpdt
+        description: PK
+        tests:
+          - not_null
+          - unique
+            
