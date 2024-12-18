@@ -81,7 +81,7 @@ models:
         description: sum of quantity per order
         tests:
           - not_null       
-      - name: purchase cost
+      - name: purchase_cost
         description: quantity*purchase_price
         tests:
           - not_null:
@@ -127,7 +127,7 @@ models:
         description: shipping cost paid by the company to the carrier
         tests:
           - not_null
-      - name: log_cost
+      - name: logcost
         description: the cost of the preparing the parcel in the distribution centre or warehouse
         tests:
           - not_null:
@@ -145,7 +145,7 @@ models:
         description: orders key
         tests:
           - not_null
-      - name: procucts_id
+      - name: products_id
         description: products key
         tests:
           - not_null:
