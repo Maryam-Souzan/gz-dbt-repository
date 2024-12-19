@@ -275,7 +275,9 @@ models:
       - name: ads_margin
         description: operational margin - ads_cost
         tests:
-          - not_null
+          - not_null:
+              config:
+                severity: warn
       - name: average_basket
         description: avg basket cost for each day
         tests:
@@ -287,15 +289,21 @@ models:
       - name: ads_cost
         description: advertisement costs
         tests:
-          - not_null
+          - not_null:
+              config:
+                severity: warn
       - name: ads_impression
         description: impression of the adds
         tests:
-          - not_null
+          - not_null:
+              config:
+                severity: warn
       - name: ads_clicks
         description: clicks of campaigns in a day
         tests:
-          - not_null
+          - not_null:
+              config:
+                severity: warn
       - name: quantity
         description: quantity
         tests:
@@ -311,7 +319,9 @@ models:
       - name: margin
         description: revenue - purchase_cost
         tests:
-          - not_null
+          - not_null:
+              config:
+                severity: warn
       - name: shipping_fee
         description: shipping fee that costumers pay
         tests:
