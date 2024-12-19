@@ -1,6 +1,5 @@
 version: 2
 
-
 sources:
   - name: raw
     schema: gz_raw_data
@@ -9,7 +8,7 @@ sources:
         identifier: raw_gz_sales
         description: sales of Greenweez
         loaded_at_field: "CAST(date_date AS TIMESTAMP)"
-        freshness: 
+        freshness:
           warn_after:
             count: 90
             period: day
@@ -18,7 +17,7 @@ sources:
             description: primary key of sales tables
             tests:
               - unique
-              - not_null  
+              - not_null
           - name: date_date,
             description: date of purchase
           - name: orders_id,
@@ -68,7 +67,7 @@ sources:
       - name: bing
         identifier: raw_gz_bing
         description: Bingo information
-        columns: 
+        columns:
           - name: date_date
           - name: paid_source
           - name: campaign_key
@@ -79,7 +78,7 @@ sources:
       - name: criteo
         identifier: raw_gz_criteo
         description: criteo information
-        columns: 
+        columns:
           - name: date_date
           - name: paid_source
           - name: campaign_key
@@ -87,10 +86,10 @@ sources:
           - name: ads_cost
           - name: impression
           - name: click
-      - name: facebook 
+      - name: facebook
         identifier: raw_gz_facebook
         description: facebook campaign information
-        columns: 
+        columns:
           - name: date_date
           - name: paid_sources
           - name: campaign_key
@@ -98,9 +97,6 @@ sources:
           - name: ads_cost
           - name: impression
           - name: click
-
-
-
 
 models:
   #Intermediate#
@@ -124,7 +120,7 @@ models:
       - name: quantity
         description: sum of quantity per order
         tests:
-          - not_null       
+          - not_null
       - name: purchase_cost
         description: quantity*purchase_price
         tests:
@@ -180,7 +176,7 @@ models:
 
       - name: operational_margin
         description: margin+shipping_fee-(log_cost+ship_cost)
-        tests: 
+        tests:
           - not_null
   - name: int_sales_margin
     description: margin calculation per order line/product sales
@@ -234,7 +230,6 @@ models:
       - name: campaign_key
         tests:
           - not_null
-          - unique
       - name: campaign_name
         tests:
           - not_null
@@ -245,5 +240,87 @@ models:
         tests:
           - not_null
       - name: click
+        tests:
+          - not_null
+    tests:
+      - unique:
+          column_name: "(campaign_key || '-' || date_date)"
+  - name: in_campaigns_day
+    description: aggregated campaigns data by date
+    columns:
+      - name: date_date
+        description: date of the campaigns
+        tests:
+          - not_null
+      - name: ads_cost
+        description: cost of the ads
+        tests:
+          - not_null
+      - name: impression
+        description: the impression of the
+        tests:
+          - not_null
+      - name: click
+        description: amount of the clicks per day for campaigns
+        tests:
+          - not_null
+
+  - name: finance_campaigns_day
+    description: global kpi
+    columns:
+      - name: date_date
+        description: campaign day
+        tests:
+          - not_null
+      - name: ads_margin
+        description: operational margin - ads_cost
+        tests:
+          - not_null
+      - name: average_basket
+        description: avg basket cost for each day
+        tests:
+          - not_null
+      - name: operational_margin
+        description: margin + shipping_fee - (logcost + ship_cost)
+        tests:
+          - not_null
+      - name: ads_cost
+        description: advertisement costs
+        tests:
+          - not_null
+      - name: ads_impression
+        description: impression of the adds
+        tests:
+          - not_null
+      - name: ads_clicks
+        description: clicks of campaigns in a day
+        tests:
+          - not_null
+      - name: quantity
+        description: quantity
+        tests:
+          - not_null
+      - name: revenue
+        description: revenue
+        tests:
+          - not_null
+      - name: purchase_cost
+        description: quantity * purchase_price
+        tests:
+          - not_null
+      - name: margin
+        description: revenue - purchase_cost
+        tests:
+          - not_null
+      - name: shipping_fee
+        description: shipping fee that costumers pay
+        tests:
+          - not_null
+      - name: logcost
+        description: logistic costs
+        tests:
+          - not_null
+      - name: ship_cost
+        description: shipping costs
         tests:
           - not_null

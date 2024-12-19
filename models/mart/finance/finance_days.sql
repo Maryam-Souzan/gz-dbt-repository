@@ -8,6 +8,8 @@ date_date
 ,ROUND(SUM(shipping_fee),2) AS shipping_fee
 ,ROUND(SUM(logcost),2) AS logcost
 ,SUM(quantity) AS quantity
+,ROUND(SUM(margin),0) AS margin
+,ROUND(SUM(ship_cost),0) AS ship_cost
 FROM {{ ref('int_orders_operational') }}
 GROUP BY date_date
 ORDER BY date_date DESC
